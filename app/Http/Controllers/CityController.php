@@ -39,6 +39,13 @@ class CityController extends Controller
              ],402);
         }
         $field = $validator->validated();
+        $data = City::updateOrCreate([
+            'name'    =>   $field['name'],
+        ]);
+        return response()->json([
+            'data' => $data,
+            'message' =>$this->msg_success,
+         ],$this->status_ok);
     }
 
     /**
