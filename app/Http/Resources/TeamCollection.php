@@ -12,8 +12,9 @@ class TeamCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
+    public static $wrap = "teams";
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return $this->collection;
     }
 }

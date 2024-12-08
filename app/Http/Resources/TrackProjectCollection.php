@@ -12,8 +12,9 @@ class TrackProjectCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
-    public function toArray(Request $request): array
+    public static $wrap = "track_projects";
+    public function toArray(Request $request)
     {
-        return parent::toArray($request);
+        return $this->collection;
     }
 }

@@ -12,8 +12,9 @@ class EventCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
-    public function toArray(Request $request): array
+    public static $wrap = "events";
+    public function toArray(Request $request)
     {
-        return parent::toArray($request);
+        return $this->collection;
     }
 }

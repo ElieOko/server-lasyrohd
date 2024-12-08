@@ -12,8 +12,9 @@ class PartenaireCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
+    public static $wrap = "partenaires";
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return $this->collection;
     }
 }
