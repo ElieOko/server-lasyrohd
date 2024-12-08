@@ -11,6 +11,7 @@ class CityController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * php artisan db:seed
      */
     public function index()
     {
