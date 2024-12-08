@@ -12,8 +12,9 @@ class CityCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
-    public function toArray(Request $request): array
+    public static $wrap = "cities";
+    public function toArray(Request $request)
     {
-        return parent::toArray($request);
+        return $this->collection;
     }
 }
