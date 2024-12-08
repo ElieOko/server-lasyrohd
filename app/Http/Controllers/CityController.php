@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use Illuminate\Http\Request;
+use App\Http\Resources\CityCollection;
 use Illuminate\Support\Facades\Validator;
 
 class CityController extends Controller
@@ -14,6 +15,13 @@ class CityController extends Controller
     public function index()
     {
         //
+        $data = City::all();
+        if($data->count() != 0 ){
+            return new CityCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**
