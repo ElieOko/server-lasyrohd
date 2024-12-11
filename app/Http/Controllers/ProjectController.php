@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProjectCollection;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
@@ -13,7 +14,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $data = Project::all();
+        if($data->count() != 0 ){
+            return new ProjectCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**
@@ -42,6 +49,16 @@ class ProjectController extends Controller
              ],402);
         }
         $field = $validator->validated();
+        $data = Project::updateOrCreate([
+            'introduction'      =>  $field['introduction'],
+            'name'              =>  $field['name'],
+            'short_desc'        =>  $field['short_desc'],
+            'description'       =>  $field['description']??"",
+        ]);
+        return response()->json([
+            'data' => $data,
+            'message' =>$this->msg_success,
+         ],$this->status_ok);
     }
 
     /**

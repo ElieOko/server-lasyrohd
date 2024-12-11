@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Resources\EventCollection;
 use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
@@ -14,6 +15,13 @@ class EventController extends Controller
     public function index()
     {
         //
+        $data = Event::all();
+        if($data->count() != 0 ){
+            return new EventCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**
@@ -36,7 +44,7 @@ class EventController extends Controller
             'city_id' =>'int',
             'description' =>'string',
             'short_desc' =>'string',    
-            'image_public' =>'file|mimes:jpeg,png,jpg|max:10302048',
+            //'image_public' =>'file|mimes:jpeg,png,jpg|max:10302048',
         ]);
         if($validator->stopOnFirstFailure()->fails()){
             return response()->json([
@@ -44,6 +52,19 @@ class EventController extends Controller
              ],402);
         }
         $field = $validator->validated();
+        $data = Event::updateOrCreate([
+            'name'    =>   $field['name'],
+            'type_event_id' =>$field['type_event_id'],
+            'city_id' => $field['city_id'],
+            'description' => $field['description']??"",
+            'short_desc' => $field['short_desc']??"",
+            'image_public' => "",
+
+        ]);
+        return response()->json([
+            'data' => $data,
+            'message' =>$this->msg_success,
+         ],$this->status_ok);
     }
 
     /**

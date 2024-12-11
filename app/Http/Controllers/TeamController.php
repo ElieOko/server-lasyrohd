@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
+use App\Http\Resources\TeamCollection;
 use Illuminate\Support\Facades\Validator;
 
 class TeamController extends Controller
@@ -13,7 +14,13 @@ class TeamController extends Controller
      */
     public function index()
     {
-        //
+        $data = Team::all();
+        if($data->count() != 0 ){
+            return new TeamCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**

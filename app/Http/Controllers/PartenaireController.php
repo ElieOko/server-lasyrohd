@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Partenaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\PartenaireCollection;
 
 class PartenaireController extends Controller
 {
@@ -13,7 +14,13 @@ class PartenaireController extends Controller
      */
     public function index()
     {
-        //
+        $data = Partenaire::all();
+        if($data->count() != 0 ){
+            return new PartenaireCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**
@@ -41,6 +48,15 @@ class PartenaireController extends Controller
              ],402);
         }
         $field = $validator->validated();
+        $data = Partenaire::updateOrCreate([
+            'name'    =>   $field['name'],
+            'url_website' =>$field['url_website'],
+            'description' => $field['description']??"",
+        ]);
+        return response()->json([
+            'data' => $data,
+            'message' =>$this->msg_success,
+         ],$this->status_ok);
     }
 
     /**

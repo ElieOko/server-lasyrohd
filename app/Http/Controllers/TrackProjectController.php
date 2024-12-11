@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TrackProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\TrackProjectCollection;
 
 class TrackProjectController extends Controller
 {
@@ -13,7 +14,13 @@ class TrackProjectController extends Controller
      */
     public function index()
     {
-        //
+        $data = TrackProject::all();
+        if($data->count() != 0 ){
+            return new TrackProjectCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**
@@ -41,6 +48,15 @@ class TrackProjectController extends Controller
              ],402);
         }
         $field = $validator->validated();
+        $data = TrackProject::updateOrCreate([
+            'name'              =>  $field['name'],
+            'project_id'        =>  $field['project_id'],
+            'description'       =>  $field['description']??"",
+        ]);
+        return response()->json([
+            'data' => $data,
+            'message' =>$this->msg_success,
+         ],$this->status_ok);
     }
 
     /**

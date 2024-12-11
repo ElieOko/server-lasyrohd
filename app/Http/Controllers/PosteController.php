@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Poste;
 use Illuminate\Http\Request;
+use App\Http\Resources\PosteCollection;
 use Illuminate\Support\Facades\Validator;
 
 class PosteController extends Controller
@@ -14,6 +15,13 @@ class PosteController extends Controller
     public function index()
     {
         //
+        $data = Poste::all();
+        if($data->count() != 0 ){
+            return new PosteCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**

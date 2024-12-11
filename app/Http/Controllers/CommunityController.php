@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Community;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\CommunityCollection;
 
 class CommunityController extends Controller
 {
@@ -13,7 +14,13 @@ class CommunityController extends Controller
      */
     public function index()
     {
-        //
+        $data = Community::all();
+        if($data->count() != 0 ){
+            return new CommunityCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**

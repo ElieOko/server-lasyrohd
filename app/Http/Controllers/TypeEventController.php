@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TypeEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\TypeEventCollection;
 
 class TypeEventController extends Controller
 {
@@ -13,7 +14,13 @@ class TypeEventController extends Controller
      */
     public function index()
     {
-        //
+        $data = TypeEvent::all();
+        if($data->count() != 0 ){
+            return new TypeEventCollection($data);
+        }
+        return response()->json([
+            "message"=>"Ressource not found",
+        ],400);
     }
 
     /**
