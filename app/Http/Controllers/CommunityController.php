@@ -36,18 +36,25 @@ class CommunityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data['error'] = null ;
+        $data['sys']   = "" ;
         $validator = Validator::make($request->all(),[
-            'first_name' =>'string',
-            'last_name' =>'string',
-            'user_id' =>'int'
+            'first_name' => 'string',
+            'last_name' =>  'string',
+            'user_id' =>    'int'
         ]);
-        if($validator->stopOnFirstFailure()->fails()){
-            return response()->json([
-                'message' => $validator
-             ],402);
+        if(!$validator->stopOnFirstFailure()->fails()){
+            $field = $validator->validated();
+            $data  = Community::updateOrCreate([
+                'first_name'    =>  $field['first_name'],
+                'last_name'    =>  $field['last_name'],
+                'user_id'    =>  $field['user_id'],
+            ]);
+            $data['sys'] = $bailleur;
+            return $data;
         }
-        $field = $validator->validated();
+        $data['error']= $validator->errors()??"";
+        return $data;
     }
 
     /**

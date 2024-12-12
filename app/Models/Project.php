@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\TrackProject;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\City;
 use App\Models\TypeEvent;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Event extends Model
 {
@@ -17,6 +18,11 @@ class Event extends Model
         "description",
         "image_public",
         "is_active"
+    ];
+
+    protected $hidden = [
+        'city_id',
+        "type_event_id"
     ];
 
     public function type_event() : BelongsTo

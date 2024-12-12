@@ -15,7 +15,7 @@ class EventController extends Controller
     public function index()
     {
         //
-        $data = Event::all();
+        $data = Event::with("city","type_event")->orderBy('id', 'desc')->get();
         if($data->count() != 0 ){
             return new EventCollection($data);
         }

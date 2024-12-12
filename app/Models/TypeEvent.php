@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TypeEvent extends Model
 {

@@ -14,7 +14,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $data = Project::all();
+        $data = Project::with("track_project")->orderBy('id', 'desc')->get();
         if($data->count() != 0 ){
             return new ProjectCollection($data);
         }

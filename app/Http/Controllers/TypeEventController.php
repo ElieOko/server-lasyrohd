@@ -47,6 +47,14 @@ class TypeEventController extends Controller
              ],402);
         }
         $field = $validator->validated();
+        $data = TypeEvent::updateOrCreate([
+            'name'           => $field['name'],
+            'description'    => $field['description'],
+        ]);
+        return response()->json([
+            'data' => $data,
+            'message' =>$this->msg_success,
+         ],$this->status_ok);
     }
 
     /**
